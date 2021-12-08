@@ -5,19 +5,22 @@ package rentalkiosk;
 public class CustomerAccount {
     // variables holding customer data
     private String customerId;
+    private String customerPass;
     private String customerName;
     private String customerPhone;
     
     // no arg constructor
     public CustomerAccount() {
         this.customerId = "";
+        this.customerPass = "";
         this.customerName = "";
         this.customerPhone = "";
     }
     
     // constructor that fills in all data based on input
-    public CustomerAccount(String id, String name, String phone) {
+    public CustomerAccount(String id, String pass, String name, String phone) {
         this.customerId = id;
+        this.customerPass = pass;
         this.customerName = name;
         this.customerPhone = phone;
     }

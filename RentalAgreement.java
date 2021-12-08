@@ -4,13 +4,14 @@ import java.util.Date;
  * @author Jacob Smith
  */
 public class RentalAgreement {
-    protected String agreementId; // id used for unique aggreements. More than one possible per customer
+    protected String agreementId; // id used for unique agreements. More than one possible per customer
     protected String customerId; // id of the customer in the CustomerAccount class
     protected String vehicleId; // id of the car in the car class/file
     protected Date date; // date the rental begins
     protected int rentalLength; // days the car will be rented
     protected double rentalFee; // amount of money charged for the rental.
     protected String payment; // credit/debit account used to pay the rental
+    protected boolean status; // contract open true/false
     
     // no arg constructor
     public RentalAgreement() {
@@ -21,10 +22,11 @@ public class RentalAgreement {
         this.rentalLength = 0;
         this.rentalFee = 0.0;
         this.payment = "";
+        this.status = false;
     }
     
     // full constructor
-    public RentalAgreement(String a, String c, String v, Date d, int r, double f, String p) {
+    public RentalAgreement(String a, String c, String v, Date d, int r, double f, String p, boolean s) {
         this.agreementId = a;
         this.customerId = c;
         this.vehicleId = v;
@@ -32,6 +34,7 @@ public class RentalAgreement {
         this.rentalLength = r;
         this.rentalFee = f;
         this.payment = p;
+        this.status = s;
     }
     
     // mutator method for agreementId
@@ -102,5 +105,25 @@ public class RentalAgreement {
     // accessor method for payment
     public String getPayment() {
         return payment;
+    }
+    
+    // mutator method for status
+    public void setStatus(boolean s) {
+        this.status = s;
+    }
+    
+    // accessor method for status
+    public boolean getStatus() {
+        return status;
+    }
+    
+    public void print() {
+        System.out.println("Details for " + agreementId + ":");
+        System.out.println("Vehicle: " + vehicleId);
+        System.out.println("Date: " + date);
+        System.out.println("Length of Contract: " + rentalLength);
+        System.out.println("Fee: " + rentalFee); 
+        System.out.println("Payment: " + payment); 
+        System.out.println("Open: " + status);
     }
 }
