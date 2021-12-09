@@ -1,4 +1,5 @@
-package rentalkiosk;
+package finalproject;
+
 /*
  * @author Jacob Smith
  */
@@ -54,4 +55,14 @@ public class CustomerAccount {
     public String getCustomerPhone() {
         return customerPhone;
     }
+
+	public String getCustomerPass() {
+		return customerPass;
+	}
+
+	public void setCustomerPass(String customerPass) {
+		this.customerPass = customerPass;
+	}
+    
+    
 }

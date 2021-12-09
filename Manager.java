@@ -1,4 +1,4 @@
-package rentalkiosk;
+package finalproject;
 
 import java.util.ArrayList;
 
@@ -13,39 +13,62 @@ public class Manager {
 		customers = new ArrayList<CustomerAccount>();
 	}
 
-	public void getInventory() {
-		for(Vehicle car:inventory) {
-			System.out.println(car.year + car.make + car.model);
-		}
+
+	public ArrayList<Vehicle> getInventory() {
+		return inventory;
 	}
+
+
+	public void setInventory(ArrayList<Vehicle> inventory) {
+		this.inventory = inventory;
+	}
+
+
+	public ArrayList<CustomerAccount> getCustomers() {
+		return customers;
+	}
+
+
+	public void setCustomers(ArrayList<CustomerAccount> customers) {
+		this.customers = customers;
+	}
+	
+	
+	public boolean findSameCustomerID(String ID) {
+		for(CustomerAccount customer:customers) {
+			if(customer.getCustomerId().equals(ID)) {
+				return true;
+			}
+		}return false;
+	}
+	
+	public boolean loginSuccess(String ID, String password) {
+		for(CustomerAccount customer: customers) {
+			if(customer.getCustomerId().equals(ID) && customer.getCustomerPass().equals(password)) {
+				return true;
+			}
+		}return false;
+	}
+
 
 	public void addVehicle(Vehicle v) {
 		inventory.add(v);
 	}
 
-	public ArrayList<CustomerAccount> getCustomers() {
-		for(customer:customers) {
-			return(System.out.println(customer.name));
-		}
-	}
 
 	public void addCustomer(CustomerAccount c) {
 		customers.add(c);
 	}
 	
 	public void removeVehicle(Vehicle v) {
-		for(int i = 0; i > inventory.length; i++) {
-			if(inventory(i).vinNumber == v.vinNumber) {
-				inventory.remove(i);
-			}
+		if(inventory.contains(v)) {
+				inventory.remove(v);
 		}
 	}
 	
 	public void removeCustomer(CustomerAccount c) {
-		for(int i = 0; i > customers.length; i++) {
-			if(customers(i).customerId == c.customerId) {
-				customers.remove(i);
-			}
+		if(customers.contains(c)) {
+			customers.remove(c);
 		}
 	}
 	

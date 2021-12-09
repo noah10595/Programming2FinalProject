@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rentalkiosk;
 
-import javafx.application.Application;
+package finalproject;
+
+import javafx.application.Application; 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,9 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -26,10 +29,11 @@ import javafx.stage.Stage;
  */
 public class RentalKiosk extends Application {
     
+	Manager manage = new Manager();
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {
         // Create a scene by calling the getPane() method and place it in the stage
-        Scene scene = new Scene(getPane(), 300, 300);
+        Scene scene = new Scene(getPane(), 400, 400);
         primaryStage.setTitle("Rental Kiosk"); // Set the stage title
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.show(); // Display the stage
@@ -91,17 +95,29 @@ public class RentalKiosk extends Application {
         TextField txtPaymentCon = new TextField();
         txtPaymentCon.setEditable(false);
         
+        TextArea taOutput = new TextArea();
+        taOutput.setEditable(false);
+        
         Button btnLogin = new Button("Log In");
         Button btnRegister = new Button("Register");
         Button btnRent = new Button("Confirm Rental");
         Button btnReturn = new Button("Return Car");
+        Button btnLogout = new Button("Logout");
         
         ComboBox cmbLog = new ComboBox();
         cmbLog.getItems().addAll("Log In","Register"); 
         ComboBox cmbOption = new ComboBox();
-        cmbOption.getItems().addAll("Rent a Car","Return a Car","Current Rental"); 
+        cmbOption.getItems().addAll("Rent a Car","Return a Car","Current Rental", "Logout"); 
         ComboBox cmbVehicle = new ComboBox();
         cmbVehicle.getItems().addAll(); // Add Vehicles
+        
+        //Pane to hold the text area for output
+        StackPane taOutputPane = new StackPane();
+        taOutputPane.setPrefWidth(400);
+        taOutputPane.setPrefHeight(150);
+        taOutputPane.setPadding(new Insets(15,15,15,15));
+        taOutputPane.getChildren().add(taOutput);
+        taOutputPane.setAlignment(Pos.BOTTOM_CENTER);
         
         //Pane to hold the log in pane content
         HBox logPane = new HBox(2);
@@ -115,11 +131,7 @@ public class RentalKiosk extends Application {
         optPane.getChildren().addAll(lblSelect2,cmbOption);
         optPane.setAlignment(Pos.CENTER);
         
-        //Pane to hold the log in content
-        GridPane blankPane = new GridPane();
-        blankPane.setPrefWidth(400);
-        blankPane.setPadding(new Insets(15,15,15,15));
-        blankPane.setAlignment(Pos.TOP_LEFT);
+       
         
         //Pane to hold the log in content
         GridPane loginPane = new GridPane();
@@ -180,6 +192,12 @@ public class RentalKiosk extends Application {
         returnPane.add(txtFeeRet,1,4);
         returnPane.add(btnReturn,1,5);
         
+      //Pane to hold the log in content
+        GridPane blankPane = new GridPane();
+        blankPane.setPrefWidth(400);
+        blankPane.setPadding(new Insets(15,15,15,15));
+        blankPane.setAlignment(Pos.TOP_LEFT);
+        
         //Pane to hold the contract content
         GridPane contractPane = new GridPane();
         contractPane.setPrefWidth(300);
@@ -199,6 +217,7 @@ public class RentalKiosk extends Application {
         //Create a border pane and set the top with the combo box
         BorderPane mainPane = new BorderPane();
 	mainPane.setTop(logPane);
+	mainPane.setBottom(taOutputPane);
 
         //Handling to change the contents between register and log in
         cmbLog.setOnAction(e -> {
@@ -217,23 +236,66 @@ public class RentalKiosk extends Application {
             if(cmbOption.getValue() == "Rent a Car"){
                 //Display rental
                 mainPane.setCenter(rentalPane);
+                mainPane.setBottom(taOutputPane);
             } else if(cmbOption.getValue() == "Return a Car"){
                 //Display return
                 mainPane.setCenter(returnPane);
             } else if(cmbOption.getValue() == "Current Rental"){
                 //Display current contract
                 mainPane.setCenter(contractPane);
-            } 
+            } else if(cmbOption.getValue() == "Logout") {
+            	mainPane.setTop(logPane);
+            	mainPane.setCenter(blankPane);
+            }
         });
         
         btnRegister.setOnAction(e -> {
             mainPane.setTop(optPane);
             mainPane.setCenter(blankPane);
+            mainPane.setBottom(taOutputPane);
+            
+            	String custId = txtCustIDReg.getText();
+            	String password = txtCustPassReg.getText();
+            	String name = txtCustNameReg.getText();
+            	String phone = txtCustPhoneReg.getText();
+            	
+            	//Unique customerID
+            	if(manage.findSameCustomerID(custId)){
+            		String text ="ID is already in use. Please try a different ID";
+            		taOutput.setText(text);
+            		mainPane.setCenter(registerPane);
+            		mainPane.setTop(logPane);
+            	} else {
+            		CustomerAccount newCust = new CustomerAccount(custId, password, name, phone);
+                	manage.addCustomer(newCust);
+                	txtCustIDReg.clear();
+               		txtCustPassReg.clear();
+               		txtCustNameReg.clear();
+               		txtCustPhoneReg.clear();
+               		String text = "Account created successfully!";
+               		taOutput.setText(text);
+            	}
+            
         });
         
         btnLogin.setOnAction(e -> {
             mainPane.setTop(optPane);
             mainPane.setCenter(blankPane);
+            mainPane.setBottom(taOutputPane);
+            
+            String custID = txtCustID.getText();
+            String password = txtCustPass.getText();
+            
+            //Determines if login was succesful
+            if(manage.loginSuccess(custID, password)) {
+            	String text ="Login Successful";
+            	taOutput.setText(text);
+            }else {
+            	String text = "ID or Password is incorrect. Please try again";
+            	taOutput.setText(text);
+            	mainPane.setCenter(loginPane);
+            	mainPane.setTop(logPane);
+            }
         });
         
         btnRent.setOnAction(e -> {
