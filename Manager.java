@@ -91,13 +91,26 @@ public class Manager {
 
 	//adds vehicle to inventory
 	public void addVehicle(Vehicle v) {
-		inventory.add(v);
+		if (v != null ) {
+			if (v instanceof Suv) {
+				inventory.add(((Suv)v));
+			}
+			if (v instanceof Sedan) {
+				inventory.add(((Sedan)v));
+			}
+		}
 	}
 	
 	//removes vehicle from inventory
 	public void removeVehicle(Vehicle v) {
-		if(inventory.contains(v)) {
-				inventory.remove(v);
+		if (v != null) {
+			if (inventory.contains(v)) {
+				if(v instanceof Suv) {
+					inventory.remove(((Suv)v));
+				}else if (v instanceof Sedan) {
+					inventory.remove(((Sedan)v));
+				}
+			}
 		}
 	}
 	
