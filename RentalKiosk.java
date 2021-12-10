@@ -35,12 +35,6 @@ public class RentalKiosk extends Application {
 
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {
-        // Create a scene by calling the getPane() method and place it in the stage
-        Scene scene = new Scene(getPane(), 400, 400);
-        primaryStage.setTitle("Rental Kiosk"); // Set the stage title
-        primaryStage.setScene(scene); // Place the scene in the stage
-        primaryStage.show(); // Display the stage
-        
         // Creates an initial inventory of Sedan objects that the car rental company has
         Sedan s1 = new Sedan("Toyota", "Camry", "2021", "5TFAW5F12HX597834", 4, 15);
         Sedan s2 = new Sedan("Honda", "Accord", "2003", "6FTWA7X32XH863278", 4, 13);
@@ -64,6 +58,13 @@ public class RentalKiosk extends Application {
         manage.addVehicle(suv2);
         manage.addVehicle(suv3);
         manage.addVehicle(suv4);
+        
+        // Create a scene by calling the getPane() method and place it in the stage
+        Scene scene = new Scene(getPane(), 400, 400);
+        primaryStage.setTitle("Rental Kiosk"); // Set the stage title
+        primaryStage.setScene(scene); // Place the scene in the stage
+        primaryStage.show(); // Display the stage
+        
     }
     
     protected BorderPane getPane() {
