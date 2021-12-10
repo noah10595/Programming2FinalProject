@@ -1,7 +1,8 @@
 package finalproject;
 
+import java.util.ArrayList;
 /*
- * @author Jacob Smith
+ * @author Jacob Smith, Noah Smith
  */
 public class CustomerAccount {
     // variables holding customer data
@@ -9,7 +10,7 @@ public class CustomerAccount {
     private String customerPass;
     private String customerName;
     private String customerPhone;
-    
+    private ArrayList<RentalAgreement> agreements = new ArrayList<RentalAgreement>();
     // no arg constructor
     public CustomerAccount() {
         this.customerId = "";
@@ -63,6 +64,41 @@ public class CustomerAccount {
 	public void setCustomerPass(String customerPass) {
 		this.customerPass = customerPass;
 	}
-    
+
+	public ArrayList<RentalAgreement> getAgreements() {
+		return agreements;
+	}
+
+	public void setAgreements(ArrayList<RentalAgreement> agreements) {
+		this.agreements = agreements;
+	}
+	
+	//adds agreement to list
+	public void addAgreement(RentalAgreement agree) {
+		agreements.add(agree);
+	}
+	
+	//checks if agreement is active
+	public boolean checkAgreementStatus(){
+		for(RentalAgreement agreement: agreements) {
+			if(agreement.getStatus()) {
+				return true;	
+			}
+		} return false;
+		
+	}
+	
+	//gets vin number of current rented vehicle
+	public String getRentalVin() {
+		for(RentalAgreement agreement: agreements) {
+			if(agreement.getStatus()) {
+				agreement.setStatus(false);
+				String vin = agreement.getVehicleId();
+				return vin;
+			}
+		}return "";
+	}
+	
+
     
 }

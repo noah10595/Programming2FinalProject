@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * @author Noah Smith, Jacob Smith
  */
 
 package finalproject;
@@ -23,12 +21,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Jacob Smith
  */
 public class RentalKiosk extends Application {
-    
+	CustomerAccount loggedInCustomer;
 	Manager manage = new Manager();
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {
@@ -45,6 +47,7 @@ public class RentalKiosk extends Application {
         Label lblCustID = new Label("User ID: ");
         Label lblCustPass = new Label("Password: ");
         Label lblCustIDReg = new Label("User ID: ");
+        Label lblCustIDRen = new Label("Confirm User ID: ");
         Label lblCustPassReg = new Label("Password: ");
         Label lblCustNameReg = new Label("Name: ");
         Label lblCustPhoneReg = new Label("Phone Number: ");
@@ -65,17 +68,20 @@ public class RentalKiosk extends Application {
         Label lblPaymentCon = new Label("Payment: ");
         Label lblSelect = new Label("Select an option: ");
         Label lblSelect2 = new Label("Select an option: ");
+        Label lblCustIDRet = new Label("Confirm user ID: ");
         
         TextField txtCustID = new TextField();
         TextField txtCustPass = new TextField();
         TextField txtCustNameReg = new TextField();
         TextField txtCustIDReg = new TextField();
+        TextField txtCustIDRen = new TextField();
         TextField txtCustPassReg = new TextField();
         TextField txtCustPhoneReg = new TextField();
         TextField txtDateRen = new TextField();
         TextField txtLengthRen = new TextField();
         TextField txtFeeRen = new TextField();
         TextField txtPaymentRen = new TextField();
+        TextField txtCustIDRet = new TextField();
         TextField txtVehicleRet = new TextField();
         txtVehicleRet.setEditable(false);
         TextField txtDateRet = new TextField();
@@ -109,7 +115,7 @@ public class RentalKiosk extends Application {
         ComboBox cmbOption = new ComboBox();
         cmbOption.getItems().addAll("Rent a Car","Return a Car","Current Rental", "Logout"); 
         ComboBox cmbVehicle = new ComboBox();
-        cmbVehicle.getItems().addAll(); // Add Vehicles
+        cmbVehicle.getItems().addAll(manage.getInventory()); // Add Vehicles
         
         //Pane to hold the text area for output
         StackPane taOutputPane = new StackPane();
@@ -165,32 +171,26 @@ public class RentalKiosk extends Application {
         rentalPane.setPrefWidth(300);
         rentalPane.setPadding(new Insets(15,15,15,15));
         rentalPane.setAlignment(Pos.TOP_LEFT);
-        rentalPane.add(lblVehicleRen,0,1);
-        rentalPane.add(cmbVehicle,1,1);
-        rentalPane.add(lblDateRen,0,2);
-        rentalPane.add(txtDateRen,1,2);
+        rentalPane.add(lblVehicleRen,0,0);
+        rentalPane.add(cmbVehicle,1,0);
+        rentalPane.add(lblDateRen, 0, 2);
+        rentalPane.add(txtDateRen, 1, 2);
         rentalPane.add(lblLengthRen,0,3);
         rentalPane.add(txtLengthRen,1,3);
         rentalPane.add(lblPaymentRen,0,4);
         rentalPane.add(txtPaymentRen,1,4);
         rentalPane.add(lblFeeRen,0,5);
         rentalPane.add(txtFeeRen,1,5);
-        rentalPane.add(btnRent,1,6);
+        rentalPane.add(lblCustIDRen, 0, 6);
+        rentalPane.add(txtCustIDRen, 1, 6);
+        rentalPane.add(btnRent,1,7);
         
         //Pane to hold the return content
         GridPane returnPane = new GridPane();
         returnPane.setPrefWidth(300);
         returnPane.setPadding(new Insets(15,15,15,15));
         returnPane.setAlignment(Pos.TOP_LEFT);
-        returnPane.add(lblVehicleRet,0,1);
-        returnPane.add(txtVehicleRet,1,1);
-        returnPane.add(lblDateRet,0,2);
-        returnPane.add(txtDateRet,1,2);
-        returnPane.add(lblLengthRet,0,3);
-        returnPane.add(txtLengthRet,1,3);
-        returnPane.add(lblFeeRet,0,4);
-        returnPane.add(txtFeeRet,1,4);
-        returnPane.add(btnReturn,1,5);
+        returnPane.add(btnReturn,0,0);
         
       //Pane to hold the log in content
         GridPane blankPane = new GridPane();
@@ -246,6 +246,7 @@ public class RentalKiosk extends Application {
             } else if(cmbOption.getValue() == "Logout") {
             	mainPane.setTop(logPane);
             	mainPane.setCenter(blankPane);
+            	loggedInCustomer = null;// deletes info about logged in customer so their information can't be taken
             }
         });
         
@@ -269,9 +270,12 @@ public class RentalKiosk extends Application {
             		CustomerAccount newCust = new CustomerAccount(custId, password, name, phone);
                 	manage.addCustomer(newCust);
                 	txtCustIDReg.clear();
-               		txtCustPassReg.clear();
+               		
+                	//clears text field
+                	txtCustPassReg.clear();
                		txtCustNameReg.clear();
                		txtCustPhoneReg.clear();
+               		
                		String text = "Account created successfully!";
                		taOutput.setText(text);
             	}
@@ -296,14 +300,59 @@ public class RentalKiosk extends Application {
             	mainPane.setCenter(loginPane);
             	mainPane.setTop(logPane);
             }
+            loggedInCustomer = manage.savedCustomer(custID, password);//saves logged in customers information
+            
         });
         
         btnRent.setOnAction(e -> {
+        	Vehicle c = (Vehicle)cmbVehicle.getValue();//downcast value of what is in combo box
+            String d = txtDateRen.getText();
+            
+            //try-catch to make sure date is in correct format
+            try {
+            	 Date date = new SimpleDateFormat("mm/dd/yyyy").parse(d);
+                 String days = txtLengthRen.getText();
+                 int daysRented = Integer.parseInt(days);
+                 String payment = txtPaymentRen.getText();
+                 String fees = txtFeeRen.getText();
+                 double feesRent = Double.parseDouble(fees);
+                 
+                 //Assign random number for agreementID
+                 int min = 1000;
+                 int max = 99999;
+                 double AgreementID = Math.random()*(max-min+1) + min;
+                 
+                 RentalAgreement agreement = new RentalAgreement(AgreementID, loggedInCustomer.getCustomerId(), c.getVinNumber(), date, daysRented, feesRent, payment, true);
+                 
+                 loggedInCustomer.addAgreement(agreement);//adds agreement to customer information
+                 
+                 //removes vehicle from inventory and adds it to vehicle inventory currently being rented
+                 manage.removeVehicle(c);
+                 manage.addOutofInventory(c);
+                 String text = ("Thank you! We'll see you soon!");
+                 taOutput.setText(text);
+			} catch (ParseException e1) {
+				String text = "Please format date as follows 'mm/dd/yyyy'";
+				taOutput.setText(text);
+			} 
             
         });
         
         btnReturn.setOnAction(e -> {
-           
+            //if agreement status is active(true) search for rented vehicle vin, find the vehicle in current rental
+            //inventory then remove from rented inventory back to regular inventory
+        	if(loggedInCustomer.checkAgreementStatus()){
+            	String vin = loggedInCustomer.getRentalVin();
+            	Vehicle c = manage.findVehicle(vin);
+            	manage.removeOutOfInventory(c);
+            	manage.addVehicle(c); 
+            	String text = "Your return has been processed";
+            	taOutput.setText(text);
+         	}else {
+         		String text = "You do not have an active agreement with this vehicle";
+         		taOutput.setText(text);
+         	}
+            
         });
         
         return mainPane;

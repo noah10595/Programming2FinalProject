@@ -1,10 +1,13 @@
-package rentalkiosk;
+package finalproject;
 
+/*
+ * @author Noah Smith
+ */
 public abstract class Vehicle {
 
 		protected String make;
 		protected String model;
-		protected int year;
+		protected String year;
 		protected String vinNumber;
 
 		//No-arg constructor
@@ -12,7 +15,7 @@ public abstract class Vehicle {
 		}
 		
 		//Constructor
-		public Vehicle(String make, String model, int year, String vinNumber) {
+		public Vehicle(String make, String model, String year, String vinNumber) {
 			this.make = make;
 			this.model = model;
 			this.year = year;
@@ -36,11 +39,11 @@ public abstract class Vehicle {
 			return this.model;
 		}
 		//set year
-		public void setYear(int year) {
+		public void setYear(String year) {
 			this.year = year;
 		}
 		//get year
-		public int getYear() {
+		public String getYear() {
 			return this.year;
 		}
 		//set price
@@ -50,6 +53,10 @@ public abstract class Vehicle {
 		//get price
 		public String getVinNumber() {
 			return this.vinNumber;
+		}
+		
+		public String toString() {
+			return (year + " " + make + " " + model);
 		}
 		
 }

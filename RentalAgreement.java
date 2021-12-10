@@ -1,10 +1,10 @@
-package rentalkiosk;
+package finalproject;
 import java.util.Date;
 /*
  * @author Jacob Smith
  */
 public class RentalAgreement {
-    protected String agreementId; // id used for unique agreements. More than one possible per customer
+    protected double agreementId; // id used for unique agreements. More than one possible per customer
     protected String customerId; // id of the customer in the CustomerAccount class
     protected String vehicleId; // id of the car in the car class/file
     protected Date date; // date the rental begins
@@ -15,7 +15,7 @@ public class RentalAgreement {
     
     // no arg constructor
     public RentalAgreement() {
-        this.agreementId = "";
+        this.agreementId = 0.0;
         this.customerId = "";
         this.vehicleId = "";
         this.date = null;
@@ -26,7 +26,7 @@ public class RentalAgreement {
     }
     
     // full constructor
-    public RentalAgreement(String a, String c, String v, Date d, int r, double f, String p, boolean s) {
+    public RentalAgreement(double a, String c, String v, Date d, int r, double f, String p, boolean s) {
         this.agreementId = a;
         this.customerId = c;
         this.vehicleId = v;
@@ -38,12 +38,12 @@ public class RentalAgreement {
     }
     
     // mutator method for agreementId
-    public void setAgreementId(String a) {
+    public void setAgreementId(double a) {
         this.agreementId = a;
     }
     
     // accessor method for agreementId
-    public String getAgreementId() {
+    public double getAgreementId() {
         return agreementId;
     }
     

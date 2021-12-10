@@ -1,4 +1,4 @@
-package rentalkiosk;
+package finalproject;
 /**
  * Final Project - Subclass of Vehicle class
  * 
@@ -7,10 +7,10 @@ package rentalkiosk;
 
 public class Suv extends Vehicle {
 	private int dailyFee;
-        private int numSeats;
+    private int numSeats;
 
                 //Constructor
-		public Suv(String make, String model, int year, String vinNumber, 
+		public Suv(String make, String model, String year, String vinNumber, 
                         int numSeats, int dailyFee) {
 			super(make, model, year, vinNumber);
                         this.numSeats = numSeats;
@@ -37,5 +37,3 @@ public class Suv extends Vehicle {
                             ". There are " + this.numSeats + " seats and the daily rental fee is $" + this.dailyFee + ".00.";
                 }
 	}
-
-        

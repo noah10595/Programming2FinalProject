@@ -1,3 +1,4 @@
+package finalproject;
 /* This class is a subclass of the Vehicle class.
  *
  * @author Jonah Reardon
@@ -12,7 +13,7 @@ public final class Sedan extends Vehicle{
     }
     
     //Constructor
-    public Sedan(String make, String model, int year, String vinNumber, int numOfDoors, int trunkSize) {
+    public Sedan(String make, String model, String year, String vinNumber, int numOfDoors, int trunkSize) {
         super(make, model, year, vinNumber);//the super class and its instance variables
         this.numOfDoors = numOfDoors; //instance variable
         this.trunkSize = trunkSize; // instance variable
