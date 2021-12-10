@@ -4,7 +4,7 @@
 
 package finalproject;
 
-import javafx.application.Application; 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,6 +32,7 @@ import java.util.Date;
 public class RentalKiosk extends Application {
 	CustomerAccount loggedInCustomer;
 	Manager manage = new Manager();
+
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) {
         // Create a scene by calling the getPane() method and place it in the stage
@@ -39,6 +40,30 @@ public class RentalKiosk extends Application {
         primaryStage.setTitle("Rental Kiosk"); // Set the stage title
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.show(); // Display the stage
+        
+        // Creates an initial inventory of Sedan objects that the car rental company has
+        Sedan s1 = new Sedan("Toyota", "Camry", "2021", "5TFAW5F12HX597834", 4, 15);
+        Sedan s2 = new Sedan("Honda", "Accord", "2003", "6FTWA7X32XH863278", 4, 13);
+        Sedan s3 = new Sedan("Dodge", "Charger", "2004", "9BTHY7B78WE326893", 4, 14);
+        Sedan s4 = new Sedan("Honda", "Accord", "2016", "8NKJU7R53NY759252", 4, 17);
+        
+        // Creates an initial inventory of Suv objects that the car rental company has
+        Suv suv1 = new Suv("Ford", "Explorer", "2021", "5TFAW5F12HX597834", 6, 15);
+        Suv suv2 = new Suv("Honda", "Pilot", "2017", "8NTUI8C56NR742468", 7, 14);
+        Suv suv3 = new Suv("Kia", "Sorento", "2016", "7IPVE9V42NE782564", 6, 16);
+        Suv suv4 = new Suv("Subaru", "Ascent", "2015", "4BRRW8K21LQ679801", 8, 17);
+        
+        // Adds the initial inventory of sedan objects to the inventory ArrayList
+        manage.addVehicle(s1);
+        manage.addVehicle(s2);
+        manage.addVehicle(s3);
+        manage.addVehicle(s4);
+        
+        // Adds the initial inventory of Suv objects to the inventory ArrayList
+        manage.addVehicle(suv1);
+        manage.addVehicle(suv2);
+        manage.addVehicle(suv3);
+        manage.addVehicle(suv4);
     }
     
     protected BorderPane getPane() {
