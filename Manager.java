@@ -123,6 +123,15 @@ public class Manager {
 		}return null;
 	}
 	
+	//finds rented vehicle based on vin number
+		public Vehicle findRentedVehicle (String vin) {
+			for(Vehicle car: outOfInventory) {
+				if(car.vinNumber.equals(vin)) {
+					return car;
+				}
+			}return null;
+		}
+	
 	//adds customer to customer list
 	public void addCustomer(CustomerAccount c) {
 		customers.add(c);

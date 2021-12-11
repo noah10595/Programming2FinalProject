@@ -22,10 +22,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -127,7 +127,7 @@ public class RentalKiosk extends Application {
         ComboBox cmbLog = new ComboBox();
         cmbLog.getItems().addAll("Log In","Register"); 
         ComboBox cmbOption = new ComboBox();
-        cmbOption.getItems().addAll("Rent a Car","Return a Car", "Logout"); 
+        cmbOption.getItems().addAll("Rent a Car","Return a Car", "View Rental","Logout"); 
         ComboBox cmbVehicle = new ComboBox();
         cmbVehicle.getItems().addAll(manage.getInventory()); // Add Vehicles
         
@@ -236,11 +236,28 @@ public class RentalKiosk extends Application {
             } else if(cmbOption.getValue() == "Return a Car"){
                 //Display return
                 mainPane.setCenter(returnPane);
+            } else if(cmbOption.getValue() == "View Rental") {
+            	String vin = loggedInCustomer.getRentalVin();
+            	Vehicle v = manage.findRentedVehicle(vin);
+            	ArrayList<RentalAgreement> agreements = loggedInCustomer.getAgreements();
+            	for(RentalAgreement agreement: agreements) {
+            		if(agreement.getStatus()) {
+            			String text = "Vehicle: " + v.year + " " + v.make + " " + v.model + "\n" + 
+    							"Length of Agreement: " + agreement.rentalLength + " day(s)" + "\n" +
+    							"Payment Account Used: " + agreement.payment + "\n" +
+            					"Renter's Name: " + loggedInCustomer.getCustomerName();
+            			taOutput.setText(text);
+            		}else {
+            			String text = "There are no active agreements";
+            			taOutput.setText(text);
+            		}
+            	}
             } else if(cmbOption.getValue() == "Logout") {
             	mainPane.setTop(logPane);
             	mainPane.setCenter(blankPane);
             }
         });
+        
         
         btnRegister.setOnAction(e -> {
             mainPane.setTop(optPane);
@@ -336,6 +353,7 @@ public class RentalKiosk extends Application {
             //inventory then remove from rented inventory back to regular inventory
         	if(loggedInCustomer.checkAgreementStatus()){
             	String vin = loggedInCustomer.getRentalVin();
+            	loggedInCustomer.changeRentalStatus();
             	Vehicle c = manage.findVehicle(vin);
             	manage.removeOutOfInventory(c);
             	manage.addVehicle(c); 

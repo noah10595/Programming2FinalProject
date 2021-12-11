@@ -116,14 +116,4 @@ public class RentalAgreement {
     public boolean getStatus() {
         return status;
     }
-    
-    public void print() {
-        System.out.println("Details for " + agreementId + ":");
-        System.out.println("Vehicle: " + vehicleId);
-        System.out.println("Date: " + date);
-        System.out.println("Length of Contract: " + rentalLength);
-        System.out.println("Fee: " + rentalFee); 
-        System.out.println("Payment: " + payment); 
-        System.out.println("Open: " + status);
-    }
 }

@@ -92,13 +92,18 @@ public class CustomerAccount {
 	public String getRentalVin() {
 		for(RentalAgreement agreement: agreements) {
 			if(agreement.getStatus()) {
-				agreement.setStatus(false);
 				String vin = agreement.getVehicleId();
 				return vin;
 			}
 		}return "";
 	}
 	
-
+	public void changeRentalStatus() {
+		for(RentalAgreement agreement: agreements) {
+			if(agreement.getStatus()) {
+				agreement.setStatus(false);
+			}
+		}
+	}
     
 }

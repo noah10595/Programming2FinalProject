@@ -37,7 +37,6 @@ public final class Sedan extends Vehicle{
     // Returns string representation of the object to be used for output
     @Override
     public String toString() {
-        return "This is a " + this.year + " " + this.make + " " + this.model + " sedan car" +
-                ". It has " + this.numOfDoors + " doors and the trunk is " + this.trunkSize + " inches.";
+        return this.year + " " + this.make + " " + this.model;
     }
 }

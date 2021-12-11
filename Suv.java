@@ -33,7 +33,7 @@ public class Suv extends Vehicle {
                 // Output
                 @Override
                 public String toString() {
-                    return "This SUV is a " + this.year + " " + this.make + " " + this.model + " " +
-                            ". There are " + this.numSeats + " seats and the daily rental fee is $" + this.dailyFee + ".00.";
+                    return  this.year + " " + this.make + " " + this.model;
+                            
                 }
 	}
