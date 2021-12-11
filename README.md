@@ -39,7 +39,7 @@ This project involves creating a car rental company system and Graphical User In
 
 ## Procedures to Run Bank Management System
 ***
-If using Jar file: Double click or open executable .jar file and skip to step 5 below
+If using Jar file: Double click or open executable .jar file, open in command prompt/command line softwares and add the path for your specific javafx library based on this template: "--module-path "C:\javafx\javafx-sdk-16\lib" --add-modules javafx.controls,javafx.fxml". Skip to step 5 below
 1. Download and extract the zip file or java files
 2. Open the .java files in a Java IDE or program of your choosing that can run the files
 3. Put the java files in a java project in a finalproject package that has proper access to the JRE system library and JavaFx library; For example click the project, click "Run As", "Run Configurations, go to "Arguments" tab, and add the path for your specific javafx library based on this template: "--module-path "C:\javafx\javafx-sdk-16\lib" --add-modules javafx.controls,javafx.fxml".  Add your javafx path under "VM arguments" and click the apply button.
