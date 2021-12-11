@@ -40,9 +40,9 @@ This project involves creating a car rental company system and Graphical User In
 ## Procedures to Run Bank Management System
 ***
 If using Jar file: Double click or open executable .jar file and skip to step 5 below
-1. Download and extract the zip file
+1. Download and extract the zip file or java files
 2. Open the .java files in a Java IDE or program of your choosing that can run the files
-3. Put the java files in a java project in a default package that has proper access to the JRE system library and JavaFx library
+3. Put the java files in a java project in a finalproject package that has proper access to the JRE system library and JavaFx library; If necessary right click the project, click "Run As", "Run Configurations, go to "Arguments" tab, and add "--module-path "C:\javafx\javafx-sdk-16\lib" --add-modules javafx.controls,javafx.fxml" under "VM arguments" and click the apply button.
 4. Run the program or main test class called RentalKiosk
 5. After the GUI pops up, follow the prompt
 6. Click on the combo box with a small triangle and click on the option of whether you want to login or register for an account
