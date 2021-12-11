@@ -1,3 +1,5 @@
+
+   
 /*
  * @author Noah Smith, Jacob Smith
  */
@@ -27,7 +29,7 @@ import java.util.Date;
 
 /**
  *
- * @author Jacob Smith
+ * @author Jacob Smith, Noah Smith, Jonah Reardon, Krystina Rush
  */
 public class RentalKiosk extends Application {
 	CustomerAccount loggedInCustomer;
@@ -73,7 +75,6 @@ public class RentalKiosk extends Application {
         Label lblCustID = new Label("User ID: ");
         Label lblCustPass = new Label("Password: ");
         Label lblCustIDReg = new Label("User ID: ");
-        Label lblCustIDRen = new Label("Confirm User ID: ");
         Label lblCustPassReg = new Label("Password: ");
         Label lblCustNameReg = new Label("Name: ");
         Label lblCustPhoneReg = new Label("Phone Number: ");
@@ -83,31 +84,19 @@ public class RentalKiosk extends Application {
         Label lblFeeRen = new Label("Fee: ");
         Label lblPaymentRen = new Label("Payment: ");
         Label lblPrompt = new Label("Please input the following: ");
-        Label lblDateRet = new Label("Date: ");
-        Label lblVehicleRet = new Label("Vehicle: ");
-        Label lblLengthRet = new Label("Days: ");
-        Label lblFeeRet = new Label("Fee: ");
-        Label lblDateCon = new Label("Date: ");
-        Label lblVehicleCon = new Label("Vehicle: ");
-        Label lblLengthCon = new Label("Days: ");
-        Label lblFeeCon = new Label("Fee: ");
-        Label lblPaymentCon = new Label("Payment: ");
         Label lblSelect = new Label("Select an option: ");
         Label lblSelect2 = new Label("Select an option: ");
-        Label lblCustIDRet = new Label("Confirm user ID: ");
         
         TextField txtCustID = new TextField();
         TextField txtCustPass = new TextField();
         TextField txtCustNameReg = new TextField();
         TextField txtCustIDReg = new TextField();
-        TextField txtCustIDRen = new TextField();
         TextField txtCustPassReg = new TextField();
         TextField txtCustPhoneReg = new TextField();
         TextField txtDateRen = new TextField();
         TextField txtLengthRen = new TextField();
         TextField txtFeeRen = new TextField();
         TextField txtPaymentRen = new TextField();
-        TextField txtCustIDRet = new TextField();
         TextField txtVehicleRet = new TextField();
         txtVehicleRet.setEditable(false);
         TextField txtDateRet = new TextField();
@@ -134,12 +123,11 @@ public class RentalKiosk extends Application {
         Button btnRegister = new Button("Register");
         Button btnRent = new Button("Confirm Rental");
         Button btnReturn = new Button("Return Car");
-        Button btnLogout = new Button("Logout");
         
         ComboBox cmbLog = new ComboBox();
         cmbLog.getItems().addAll("Log In","Register"); 
         ComboBox cmbOption = new ComboBox();
-        cmbOption.getItems().addAll("Rent a Car","Return a Car","Current Rental", "Logout"); 
+        cmbOption.getItems().addAll("Rent a Car","Return a Car", "Logout"); 
         ComboBox cmbVehicle = new ComboBox();
         cmbVehicle.getItems().addAll(manage.getInventory()); // Add Vehicles
         
@@ -207,8 +195,6 @@ public class RentalKiosk extends Application {
         rentalPane.add(txtPaymentRen,1,4);
         rentalPane.add(lblFeeRen,0,5);
         rentalPane.add(txtFeeRen,1,5);
-        rentalPane.add(lblCustIDRen, 0, 6);
-        rentalPane.add(txtCustIDRen, 1, 6);
         rentalPane.add(btnRent,1,7);
         
         //Pane to hold the return content
@@ -223,22 +209,6 @@ public class RentalKiosk extends Application {
         blankPane.setPrefWidth(400);
         blankPane.setPadding(new Insets(15,15,15,15));
         blankPane.setAlignment(Pos.TOP_LEFT);
-        
-        //Pane to hold the contract content
-        GridPane contractPane = new GridPane();
-        contractPane.setPrefWidth(300);
-        contractPane.setPadding(new Insets(15,15,15,15));
-        contractPane.setAlignment(Pos.TOP_LEFT);
-        contractPane.add(lblVehicleCon,0,1);
-        contractPane.add(txtVehicleCon,1,1);
-        contractPane.add(lblDateCon,0,2);
-        contractPane.add(txtDateCon,1,2);
-        contractPane.add(lblLengthCon,0,3);
-        contractPane.add(txtLengthCon,1,3);
-        contractPane.add(lblPaymentCon,0,4);
-        contractPane.add(txtPaymentCon,1,4);
-        contractPane.add(lblFeeCon,0,5);
-        contractPane.add(txtFeeCon,1,5);
         
         //Create a border pane and set the top with the combo box
         BorderPane mainPane = new BorderPane();
@@ -266,13 +236,9 @@ public class RentalKiosk extends Application {
             } else if(cmbOption.getValue() == "Return a Car"){
                 //Display return
                 mainPane.setCenter(returnPane);
-            } else if(cmbOption.getValue() == "Current Rental"){
-                //Display current contract
-                mainPane.setCenter(contractPane);
             } else if(cmbOption.getValue() == "Logout") {
             	mainPane.setTop(logPane);
             	mainPane.setCenter(blankPane);
-            	loggedInCustomer = null;// deletes info about logged in customer so their information can't be taken
             }
         });
         
@@ -305,7 +271,8 @@ public class RentalKiosk extends Application {
                		String text = "Account created successfully!";
                		taOutput.setText(text);
             	}
-            
+            	loggedInCustomer = manage.savedCustomer(custId, password);//saves logged in customers information
+            	
         });
         
         btnLogin.setOnAction(e -> {
